@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>static inline</title>
+        <link href="css/main.css" rel="stylesheet" />
+        <script>
+(function(){
+	var app = function(){
+		console.log("This javascript module should be presented inline");
+	}
+	app();
+})();
+</script> 
+        <script>
+(function(){
+	var commonShell = function(){
+		console.log("common shell");
+	};
+	commonShell();
+})();
+</script> 
+    </head>
+    <body>
+        <img src="imgs/MIT_Sloan.png" width="38" height="44" title="MIT Sloan" alt="MIT Sloan" />
+        <h1>Grunt inline static content plugin </h1>
+    </body>
+</html>
