@@ -1,0 +1,45 @@
+{
+  "name": "grunt-static-inline",
+  "description": "A grunt plugin to replace url from static files such as img,js,css an put inline in a template",
+  "version": "0.1.0",
+  "homepage": "https://github.com/dayvson/grunt-static-inline",
+  "author": {
+    "name": "Maxwell Da Silva",
+    "email": "dayvson@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dayvson/grunt-static-inline"
+  },
+  "bugs": {
+    "url": "https://github.com/dayvson/grunt-static-inline/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/dayvson/grunt-static-inline/blob/master/LICENSE"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "datauri": "*"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": ">=0.2.0",
+    "grunt-contrib-clean": ">=0.4.0",
+    "grunt-contrib-nodeunit": ">=0.1.2",
+    "grunt": "~0.4.0"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.0"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
