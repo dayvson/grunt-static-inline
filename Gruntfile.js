@@ -31,13 +31,21 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     staticinline: {
       main:{
-        options:{},
+        options: {
+          prefix: '@{',
+          suffix: '}@',
+          vars: {
+            'hello': 'Hello World',
+            'DOCTYPE': '<!DOCTYPE html>',
+            'partial_include': '<%= grunt.file.read("test/fixtures/partial.html") %>'
+          },
+        },
         files:{
           'tmp/output-css.html': 'test/fixtures/template-linkcss.html',
           'tmp/output-script.html': 'test/fixtures/template-script.html',
           'tmp/output-img.html': 'test/fixtures/template-img.html',
           'tmp/output-full.html': 'test/fixtures/template-full.html',
-
+          'tmp/output-variables.html': 'test/fixtures/template-variables.html',
         }
       }
     },
