@@ -39,9 +39,25 @@ module.exports = function(grunt) {
       return baseReplace(templatePath, "script", src);
     });
   };
+  
+  var findReplaceLink = function(templatePath, content){
+    return content.replace(/<link.*href=['"]([^'"]+)['"].*inline=['"]true['"].*\/>/g, function(match, src){
+      return baseReplace(templatePath, "style", src);
+    });
+  };
+
+  var findReplaceImg = function(templatePath, content){
+    return content.replace(/<img.*src=['"]([^'"]+)['"].*inline=['"]true['"].*\/?\s*>/g, function(match, src){
+        var srcPath = resolveFilePath(templatePath, src);
+        if(srcPath){
+          return match.replace(/inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
+        }
+        return '';
+    });
+  };
 
   var findAndReplace = function(templatePath, content){
-    return findReplaceScript(templatePath, content);
+    return findReplaceImg(templatePath, findReplaceScript(templatePath, findReplaceLink(templatePath, content)));
   };
 
   var staticInlineTask = function(){
