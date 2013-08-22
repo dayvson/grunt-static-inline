@@ -33,8 +33,10 @@ module.exports = function(grunt) {
       main:{
         options:{},
         files:{
-          'tmp/output-src.html': 'test/fixtures/input-src.html',
-          'tmp/output-onlyscript.html': 'test/fixtures/template-script.html'
+          'tmp/output-css.html': 'test/fixtures/template-linkcss.html',
+          'tmp/output-script.html': 'test/fixtures/template-script.html',
+          'tmp/output-img.html': 'test/fixtures/template-img.html',
+          'tmp/output-full.html': 'test/fixtures/template-full.html',
 
         }
       }
