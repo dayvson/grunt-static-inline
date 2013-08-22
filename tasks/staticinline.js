@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     return srcPath;
   };
 
-  var baseReplace = function(templatePath, tag, src){
+  var baseTAGReplace = function(templatePath, tag, src){
     var result = '';
     var srcPath = resolveFilePath(templatePath, src);
     if(srcPath){
@@ -36,13 +36,13 @@ module.exports = function(grunt) {
 
   var findReplaceScript = function(templatePath, content){
     return content.replace(/<script.*src=['"]([^'"]+)['"].*inline=['"]true['"].*><\/script>/g, function(match, src){
-      return baseReplace(templatePath, "script", src);
+      return baseTAGReplace(templatePath, "script", src);
     });
   };
   
   var findReplaceLink = function(templatePath, content){
     return content.replace(/<link.*href=['"]([^'"]+)['"].*inline=['"]true['"].*\/>/g, function(match, src){
-      return baseReplace(templatePath, "style", src);
+      return baseTAGReplace(templatePath, "style", src);
     });
   };
 
@@ -56,17 +56,33 @@ module.exports = function(grunt) {
     });
   };
 
-  var findAndReplace = function(templatePath, content){
-    return findReplaceImg(templatePath, findReplaceScript(templatePath, findReplaceLink(templatePath, content)));
+  var findReplaceVariables = function(options, content){
+    Object.keys(options.vars).forEach(function(key){
+      var re = new RegExp(options.prefix + key + options.suffix, "g");
+      content = content.replace(re, options.vars[key]);
+    });
+    return content;
+  };
+
+  var findAndReplace = function(options, templatePath, content){
+    return findReplaceVariables(options,
+           findReplaceImg(templatePath, 
+           findReplaceScript(templatePath,  
+           findReplaceLink(templatePath, content))));
   };
 
   var staticInlineTask = function(){
+    var options = this.options({
+        prefix: '@{',
+        suffix: '}@',
+        vars: {}
+      });
+
     this.files.forEach(function(f){
       var srcFile = f.orig.src[0];
       var destFile = f.dest;
       var content = grunt.file.read(srcFile);
-      content = findAndReplace(srcFile, content);
-      
+      content = findAndReplace(options, srcFile, content);
       grunt.file.write(destFile, content);
     });
   };
