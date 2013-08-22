@@ -6,9 +6,8 @@
  * Licensed under the MIT license.
  */
 
-'use strict';
-
 module.exports = function(grunt) {
+  'use strict';
   var datauri = require('datauri');
   var path = require('path');
   var description = 'A grunt plugin to replace url from static files such as img,js,css an put inline in a template';  
@@ -27,9 +26,9 @@ module.exports = function(grunt) {
     var result = '';
     var srcPath = resolveFilePath(templatePath, src);
     if(srcPath){
-      result = '<%%TAG%%>\n%%CONTENT%%\n</%%TAG%%>'
-                 .replace(/%%CONTENT%%/g, grunt.file.read(srcPath))
-                 .replace(/%%TAG%%/g, tag);
+      result = '<TAG>\nCONTENT\n</TAG>'
+                 .replace(/CONTENT/g, grunt.file.read(srcPath))
+                 .replace(/TAG/g, tag);
     }
     return result;
   };
