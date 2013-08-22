@@ -22,6 +22,12 @@ exports.staticinline = {
     test.equal(actual, expected, 'should replace image src');
     test.done();
   },
+  test_replace_variables: function(test) {
+    var actual = grunt.file.read('tmp/output-variables.html');
+    var expected = grunt.file.read('test/expected/output-variables.html');
+    test.equal(actual, expected, 'should all variables described');
+    test.done();
+  },
   test_replace_full: function(test) {
     var actual = grunt.file.read('tmp/output-full.html');
     var expected = grunt.file.read('test/expected/output-full.html');
