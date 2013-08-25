@@ -27,14 +27,13 @@ grunt.initConfig({
 	staticinline: {
 		main: {
 			options: {
-			  prefix: '@{',
-	          suffix: '}@',
-	          basepath: '',
-	          vars: {
-	            'hello': 'Hello World',
-	            'DOCTYPE': '<!DOCTYPE html>',
-	            'partial_include': '<%= grunt.file.read("test/fixtures/partial.html") %>'
-	          }
+				prefix: '@{',
+				suffix: '}@',
+				vars: {
+					'hello': 'Hello World',
+					'DOCTYPE': '<!DOCTYPE html>',
+					'partial_include': '<%= grunt.file.read("test/fixtures/partial.html") %>'
+				}
 			},
 			files: {
 				'base_output.html': 'base_input.html',
