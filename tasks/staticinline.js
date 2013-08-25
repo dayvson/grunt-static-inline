@@ -40,7 +40,7 @@ module.exports = function(grunt) {
   };
   
   var findReplaceLink = function(templatePath, content){
-    return content.replace(/<link.*href=['"]([^'"]+)['"].*inline=['"]true['"].*\/>/g, function(match, src){
+    return content.replace(/<link.*href=['"]([^'"]+)['"].*inline=['"]true['"].*\/?\s*>/g, function(match, src){
       return baseTAGReplace(templatePath, "style", src);
     });
   };
