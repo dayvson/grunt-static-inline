@@ -14,7 +14,6 @@ module.exports = function(grunt) {
   var resolveFilePath = function(templatePath, src, basepath){
     var srcPath;
     if(!grunt.file.isPathAbsolute(src)){
-      if( basepath ){}
       srcPath = path.resolve(path.dirname(templatePath), src);
       if(grunt.file.exists(srcPath)){
         return srcPath;
