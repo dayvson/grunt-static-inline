@@ -33,7 +33,8 @@ grunt.initConfig({
 					'hello': 'Hello World',
 					'DOCTYPE': '<!DOCTYPE html>',
 					'partial_include': '<%= grunt.file.read("test/fixtures/partial.html") %>'
-				}
+				},
+				basepath: 'test/fixtures/'
 			},
 			files: {
 				'base_output.html': 'base_input.html',
@@ -49,7 +50,7 @@ grunt.initConfig({
 <html>
     <head>
         <title>static inline</title>
-        <link href="css/main.css" rel="stylesheet" inline="true"/>
+        <link href="/css/main.css" rel="stylesheet" inline="true"/> <!-- absolute url will use basepath option -->
         <script src="js/app.js" inline="true"></script>
         <script src="js/common.js" inline="true"></script> 
     </head>
