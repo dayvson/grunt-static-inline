@@ -39,6 +39,7 @@ module.exports = function(grunt) {
             'DOCTYPE': '<!DOCTYPE html>',
             'partial_include': '<%= grunt.file.read("test/fixtures/partial.html") %>'
           },
+          basepath: 'test/fixtures/'
         },
         files:{
           'tmp/output-css.html': 'test/fixtures/template-linkcss.html',
