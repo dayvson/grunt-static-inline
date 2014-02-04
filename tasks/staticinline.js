@@ -31,27 +31,27 @@ module.exports = function(grunt) {
     var result = '';
     var srcPath = resolveFilePath(templatePath, src, basepath);
     if(srcPath){
-      result = '<TAG>\nCONTENT\n</TAG>'
-                 .replace(/CONTENT/g, grunt.file.read(srcPath))
+      result = '<TAG>CONTENT</TAG>'
+                 .replace(/CONTENT/g, grunt.file.read(srcPath).trim())
                  .replace(/TAG/g, tag);
     }
     return result;
   };
 
   var findReplaceScript = function(templatePath, content, basepath){
-    return content.replace(/<script.*src=['"]([^'"]+)['"].*inline=['"]true['"].*><\/script>/g, function(match, src){
+    return content.replace(/<script[^<]src=['"]([^'"]+)['"][^<]inline=['"]true['"][^<]><\/script>/g, function(match, src){
       return baseTAGReplace(templatePath, "script", src, basepath);
     });
   };
-  
+
   var findReplaceLink = function(templatePath, content, basepath){
-    return content.replace(/<link.*href=['"]([^'"]+)['"].*inline=['"]true['"].*\/?\s*>/g, function(match, src){
+    return content.replace(/<link[^<]*href=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?\s*>/g, function(match, src){
       return baseTAGReplace(templatePath, "style", src, basepath);
     });
   };
 
   var findReplaceImg = function(templatePath, content, basepath){
-    return content.replace(/<img.*src=['"]([^'"]+)['"].*inline=['"]true['"].*\/?\s*>/g, function(match, src){
+    return content.replace(/<img[^<]src=['"]([^'"]+)['"][^<]inline=['"]true['"][^<]\/?\s*>/g, function(match, src){
         var srcPath = resolveFilePath(templatePath, src, basepath);
         if(srcPath){
           return match.replace(/inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
