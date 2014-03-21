@@ -50,7 +50,7 @@ grunt.initConfig({
 <html>
     <head>
         <title>static inline</title>
-        <link href="/css/main.css" rel="stylesheet" inline="true"/> <!-- absolute url will use basepath option -->
+        <link href="css/main.css" rel="stylesheet" inline="true"/> <!-- absolute url will use basepath option -->
         <script src="js/app.js" inline="true"></script>
         <script src="js/common.js" inline="true"></script> 
     </head>
