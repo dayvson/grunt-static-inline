@@ -1,4 +1,4 @@
-# grunt-static-inline
+# grunt-static-inline [![Build Status](https://travis-ci.org/dayvson/grunt-static-inline.svg?branch=master)](https://travis-ci.org/dayvson/grunt-static-inline)
 
 > A grunt plugin to replace url from static files such as img,js,css and variables an put inline in a template.
 
