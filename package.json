@@ -24,8 +24,10 @@
   "engines": {
     "node": ">= 0.8.0"
   },
+  "preferGlobal": true,
+
   "scripts": {
-    "test": "grunt test"
+    "test": "node node_modules/grunt-cli/bin/grunt test"
   },
   "dependencies": {
     "datauri": "*"
@@ -34,7 +36,8 @@
     "grunt-contrib-jshint": ">=0.2.0",
     "grunt-contrib-clean": ">=0.4.0",
     "grunt-contrib-nodeunit": ">=0.1.2",
-    "grunt": "~0.4.0"
+    "grunt": "~0.4.0",
+    "grunt-cli": "~0.1.13"
   },
   "peerDependencies": {
     "grunt": "~0.4.0"
