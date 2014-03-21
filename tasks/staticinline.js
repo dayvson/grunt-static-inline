@@ -15,14 +15,8 @@ module.exports = function(grunt) {
     var srcPath;
     if(!grunt.file.isPathAbsolute(src)){
       srcPath = path.resolve(path.dirname(templatePath), src);
-      if(grunt.file.exists(srcPath)){
-        return srcPath;
-      }
     }else if(grunt.file.isPathAbsolute(src) && basepath){
       srcPath = path.resolve(basepath + src);
-      if(grunt.file.exists(srcPath)){
-        return srcPath;
-      }
     }
     return srcPath;
   };
@@ -39,7 +33,7 @@ module.exports = function(grunt) {
   };
 
   var findReplaceScript = function(templatePath, content, basepath){
-    return content.replace(/<script[^<]src=['"]([^'"]+)['"][^<]inline=['"]true['"][^<]><\/script>/g, function(match, src){
+    return content.replace(/<script[^<]src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?><\/script>/g, function(match, src){
       return baseTAGReplace(templatePath, "script", src, basepath);
     });
   };
@@ -51,7 +45,7 @@ module.exports = function(grunt) {
   };
 
   var findReplaceImg = function(templatePath, content, basepath){
-    return content.replace(/<img[^<]src=['"]([^'"]+)['"][^<]inline=['"]true['"][^<]\/?\s*>/g, function(match, src){
+    return content.replace(/<img[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?\s*>/g, function(match, src){
         var srcPath = resolveFilePath(templatePath, src, basepath);
         if(srcPath){
           return match.replace(/inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
@@ -69,10 +63,10 @@ module.exports = function(grunt) {
   };
 
   var findAndReplace = function(options, templatePath, content){
-    return findReplaceVariables(options,
-           findReplaceImg(templatePath, 
-           findReplaceScript(templatePath,  
-           findReplaceLink(templatePath, content, options.basepath), options.basepath), options.basepath));
+    var result = findReplaceLink(templatePath, content, options.basepath);    
+    result = findReplaceScript(templatePath, result, options.basepath);
+    result = findReplaceImg(templatePath, result, options.basepath);
+    return findReplaceVariables(options, result);
   };
 
   var staticInlineTask = function(){
