@@ -75,7 +75,7 @@ module.exports = function(grunt) {
       });
 
     this.files.forEach(function(f){
-      var srcFile = f.orig.src[0];
+      var srcFile = f.src;
       var destFile = f.dest;
       var content = grunt.file.read(srcFile);
       content = findAndReplace(options, srcFile, content);
