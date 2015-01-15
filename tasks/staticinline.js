@@ -25,9 +25,7 @@ module.exports = function(grunt) {
     var result = '';
     var srcPath = resolveFilePath(templatePath, src, basepath);
     if(srcPath){
-      result = '<TAG>CONTENT</TAG>'
-                 .replace(/CONTENT/g, grunt.file.read(srcPath).trim())
-                 .replace(/TAG/g, tag);
+      result = '<' + tag + '>' +  grunt.file.read(srcPath).trim() + '</' + tag + '>';
     }
     return result;
   };
