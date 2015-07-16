@@ -21,18 +21,33 @@ module.exports = function(grunt) {
     return srcPath;
   };
 
-  var baseTAGReplace = function(templatePath, tag, src, basepath){
+  var readFile = function (templatePath, src, basepath) {
     var result = '';
     var srcPath = resolveFilePath(templatePath, src, basepath);
-    if(srcPath){
-      result = '<' + tag + '>' +  grunt.file.read(srcPath).trim() + '</' + tag + '>';
+    if (srcPath) {
+      result = grunt.file.read(srcPath).trim();
+    }
+    return result;
+  };
+
+  var baseTAGReplace = function(templatePath, tag, src, basepath){
+    var result = '';
+    var srcContents = readFile(templatePath, src, basepath);
+    if (srcContents) {
+      result = '<' + tag + '>' +  srcContents + '</' + tag + '>';
     }
     return result;
   };
 
   var findReplaceScript = function(templatePath, content, basepath){
     return content.replace(/<script[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?><\/script>/g, function(match, src){
-      return baseTAGReplace(templatePath, "script", src, basepath);
+
+      // Remove attributes and closing </script>
+      match = match.replace(/\ssrc=['"]([^'"]+)['"]/, '').
+        replace(/\sinline=['"]true['"]/, '').
+        replace(/<\/script>/, '');
+
+      return match + readFile(templatePath, src, basepath) + '</script>';
     });
   };
 
@@ -61,7 +76,7 @@ module.exports = function(grunt) {
   };
 
   var findAndReplace = function(options, templatePath, content){
-    var result = findReplaceLink(templatePath, content, options.basepath);    
+    var result = findReplaceLink(templatePath, content, options.basepath);
     result = findReplaceScript(templatePath, result, options.basepath);
     result = findReplaceImg(templatePath, result, options.basepath);
     return findReplaceVariables(options, result);
