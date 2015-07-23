@@ -16,21 +16,21 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'tasks/*.js',
-        '<%= nodeunit.tests %>',
+        '<%= nodeunit.tests %>'
       ],
       options: {
-        jshintrc: '.jshintrc',
-      },
+        jshintrc: '.jshintrc'
+      }
     },
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp'],
+      tests: ['tmp']
     },
 
     // Configuration to be run (and then tested).
     staticinline: {
-      main:{
+      main: {
         options: {
           prefix: '@{',
           suffix: '}@',
@@ -41,20 +41,20 @@ module.exports = function(grunt) {
           },
           basepath: 'test/fixtures/'
         },
-        files:{
+        files: {
           'tmp/output-css.html': 'test/fixtures/template-linkcss.html',
           'tmp/output-script.html': 'test/fixtures/template-script.html',
           'tmp/output-img.html': 'test/fixtures/template-img.html',
           'tmp/output-full.html': 'test/fixtures/template-full.html',
-          'tmp/output-variables.html': 'test/fixtures/template-variables.html',
+          'tmp/output-variables.html': 'test/fixtures/template-variables.html'
         }
       }
     },
 
     // Unit tests.
     nodeunit: {
-      tests: ['test/*_test.js'],
-    },
+      tests: 'test/*_test.js'
+    }
 
   });
 
@@ -68,9 +68,9 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'staticinline', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'jshint', 'staticinline', 'nodeunit']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('default', 'test');
 
 };

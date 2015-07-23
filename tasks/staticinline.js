@@ -6,16 +6,17 @@
  * Licensed under the MIT license.
  */
 
+'use strict';
+
 module.exports = function(grunt) {
-  'use strict';
   var datauri = require('datauri');
   var path = require('path');
-  var description = 'A grunt plugin to replace url from static files such as img,js,css an put inline in a template';  
-  var resolveFilePath = function(templatePath, src, basepath){
+
+  var resolveFilePath = function(templatePath, src, basepath) {
     var srcPath;
-    if(!grunt.file.isPathAbsolute(src)){
+    if (!grunt.file.isPathAbsolute(src)) {
       srcPath = path.resolve(path.dirname(templatePath), src);
-    }else if(grunt.file.isPathAbsolute(src) && basepath){
+    } else if (grunt.file.isPathAbsolute(src) && basepath) {
       srcPath = path.resolve(basepath + src);
     }
     return srcPath;
@@ -30,17 +31,17 @@ module.exports = function(grunt) {
     return result;
   };
 
-  var baseTAGReplace = function(templatePath, tag, src, basepath){
+  var baseTagReplace = function(templatePath, tag, src, basepath) {
     var result = '';
     var srcContents = readFile(templatePath, src, basepath);
     if (srcContents) {
-      result = '<' + tag + '>' +  srcContents + '</' + tag + '>';
+      result = '<' + tag + '>' + srcContents + '</' + tag + '>';
     }
     return result;
   };
 
-  var findReplaceScript = function(templatePath, content, basepath){
-    return content.replace(/<script[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?><\/script>/g, function(match, src){
+  var findReplaceScript = function(templatePath, content, basepath) {
+    return content.replace(/<script[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?><\/script>/g, function(match, src) {
 
       // Remove attributes and closing </script>
       match = match.replace(/\ssrc=['"]([^'"]+)['"]/, '').
@@ -51,45 +52,45 @@ module.exports = function(grunt) {
     });
   };
 
-  var findReplaceLink = function(templatePath, content, basepath){
-    return content.replace(/<link[^<]*href=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?\s*>/g, function(match, src){
-      return baseTAGReplace(templatePath, "style", src, basepath);
+  var findReplaceLink = function(templatePath, content, basepath) {
+    return content.replace(/<link[^<]*href=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?\s*>/g, function(match, src) {
+      return baseTagReplace(templatePath, 'style', src, basepath);
     });
   };
 
-  var findReplaceImg = function(templatePath, content, basepath){
-    return content.replace(/<img[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?\s*>/g, function(match, src){
+  var findReplaceImg = function(templatePath, content, basepath) {
+    return content.replace(/<img[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?\s*>/g, function(match, src) {
         var srcPath = resolveFilePath(templatePath, src, basepath);
-        if(srcPath){
+        if (srcPath) {
           return match.replace(/inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
         }
         return '';
     });
   };
 
-  var findReplaceVariables = function(options, content){
-    Object.keys(options.vars).forEach(function(key){
-      var re = new RegExp(options.prefix + key + options.suffix, "g");
+  var findReplaceVariables = function(options, content) {
+    Object.keys(options.vars).forEach(function(key) {
+      var re = new RegExp(options.prefix + key + options.suffix, 'g');
       content = content.replace(re, options.vars[key]);
     });
     return content;
   };
 
-  var findAndReplace = function(options, templatePath, content){
+  var findAndReplace = function(options, templatePath, content) {
     var result = findReplaceLink(templatePath, content, options.basepath);
     result = findReplaceScript(templatePath, result, options.basepath);
     result = findReplaceImg(templatePath, result, options.basepath);
     return findReplaceVariables(options, result);
   };
 
-  var staticInlineTask = function(){
+  var staticInlineTask = function() {
     var options = this.options({
         prefix: '@{',
         suffix: '}@',
         vars: {}
       });
 
-    this.files.forEach(function(f){
+    this.files.forEach(function(f) {
       var srcFile = f.src;
       var destFile = f.dest;
       var content = grunt.file.read(srcFile);
@@ -97,6 +98,7 @@ module.exports = function(grunt) {
       grunt.file.write(destFile, content);
     });
   };
-  grunt.registerMultiTask('staticinline', description, staticInlineTask);
+
+  grunt.registerMultiTask('staticinline', 'A grunt plugin to replace url from static files such as images, CSS, JS, and put inline in a template', staticInlineTask);
 
 };
