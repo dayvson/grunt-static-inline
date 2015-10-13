@@ -3,28 +3,28 @@
     <head>
         <title>static inline</title>
         <style>h1{
-    color:#ff0000;
-    align:center;
+  color: #ff0000;
+  text-align: center;
 }
 
 img {
-    border:1px solid red;
+  border: 1px solid red;
 }</style>
-        <script>(function(){
-    var app = function(){
-        console.log("This javascript module should be presented inline");
-    }
-    app();
+        <script>(function() {
+  var app = function() {
+    console.log("This javascript module should be inlined");
+  };
+  app();
 })();</script>
-        <script>(function(){
-    var commonShell = function(){
-        console.log("common shell");
-    };
-    commonShell();
-})();</script> 
+        <script>(function() {
+  var commonShell = function() {
+    console.log("common shell");
+  };
+  commonShell();
+})();</script>
     </head>
     <body>
-        <img src="data:image/png;base64,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" width="38" height="44" title="MIT Sloan" alt="MIT Sloan"  />
-        <h1>Hello World, Grunt inline static content plugin </h1>
+        <img src="data:image/png;base64,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" width="38" height="44" title="MIT Sloan" alt="MIT Sloan" >
+        <h1>Hello World, Grunt inline static content plugin</h1>
     </body>
 </html>

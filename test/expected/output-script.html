@@ -1,32 +1,33 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>static inline</title>
-        <link href="css/main.css" rel="stylesheet" />
-        <script>(function(){
-    var app = function(){
-        console.log("This javascript module should be presented inline");
+        <link href="css/main.css" rel="stylesheet">
+        <script>(function() {
+  var app = function() {
+    console.log("This javascript module should be inlined");
+  };
+  app();
+})();</script>
+        <script>(function() {
+  var commonShell = function() {
+    console.log("common shell");
+  };
+  commonShell();
+})();</script>
+        <script>(function() {
+  var util = {
+    // Method extracted from RavenJS:
+    // https://github.com/getsentry/raven-js/blob/master/dist/raven.js
+    escapeRegExp: function (text) {
+      // This regexp should be inlined.
+      return text.replace(/[\-\[\]{}()*+?.,\\\^$|#]/g, '\\$&');
     }
-    app();
-})();</script>
-        <script>(function(){
-    var commonShell = function(){
-        console.log("common shell");
-    };
-    commonShell();
-})();</script>
-        <script>(function(){
-    var util = {
-        // Method extracted from RavenJS:
-        // https://github.com/getsentry/raven-js/blob/master/dist/raven.js
-        escapeRegExp: function (text) {
-            // This regexp should be presented inline.
-            return text.replace(/[\-\[\]{}()*+?.,\\\^$|#]/g, '\\$&');
-        }
-    };
+  };
 })();</script>
     </head>
     <body>
-        <img src="imgs/MIT_Sloan.png" width="38" height="44" title="MIT Sloan" alt="MIT Sloan" />
-        <h1>Grunt inline static content plugin </h1>
+        <img src="img/MIT_Sloan.png" width="38" height="44" title="MIT Sloan" alt="MIT Sloan">
+        <h1>Grunt inline static content plugin</h1>
     </body>
 </html>
