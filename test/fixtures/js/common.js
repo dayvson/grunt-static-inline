@@ -1,6 +1,6 @@
-(function(){
-    var commonShell = function(){
-        console.log("common shell");
-    };
-    commonShell();
+(function() {
+  var commonShell = function() {
+    console.log("common shell");
+  };
+  commonShell();
 })();
