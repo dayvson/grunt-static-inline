@@ -1,0 +1,1 @@
+(function(){ /* Any JS file */ })();
