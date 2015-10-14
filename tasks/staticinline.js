@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     return srcPath;
   };
 
-  var readFile = function (templatePath, src, basepath) {
+  var readFile = function(templatePath, src, basepath) {
     var result = '';
     var srcPath = resolveFilePath(templatePath, src, basepath);
     if (srcPath) {
@@ -45,10 +45,10 @@ module.exports = function(grunt) {
   var findReplaceScript = function(templatePath, content, basepath) {
     return content.replace(/<script[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?><\/script>/g, function(match, src) {
 
-      // Remove attributes and closing </script>
-      match = match.replace(/\ssrc=['"]([^'"]+)['"]/, '').
-        replace(/\sinline=['"]true['"]/, '').
-        replace(/<\/script>/, '');
+      // Remove attributes and closing `</script>`
+      match = match.replace(/\ssrc=['"]([^'"]+)['"]/, '')
+                .replace(/\sinline=['"]true['"]/, '')
+                .replace(/<\/script>/, '');
 
       return match + readFile(templatePath, src, basepath) + '</script>';
     });
@@ -62,11 +62,11 @@ module.exports = function(grunt) {
 
   var findReplaceImg = function(templatePath, content, basepath) {
     return content.replace(/<img[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?\s*>/g, function(match, src) {
-        var srcPath = resolveFilePath(templatePath, src, basepath);
-        if (srcPath) {
-          return match.replace(/inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
-        }
-        return '';
+      var srcPath = resolveFilePath(templatePath, src, basepath);
+      if (srcPath) {
+        return match.replace(/inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
+      }
+      return '';
     });
   };
 
@@ -87,10 +87,10 @@ module.exports = function(grunt) {
 
   var staticInlineTask = function() {
     var options = this.options({
-        prefix: '@{',
-        suffix: '}@',
-        vars: {}
-      });
+      prefix: '@{',
+      suffix: '}@',
+      vars: {}
+    });
 
     this.files.forEach(function(f) {
       var srcFile = f.src;
