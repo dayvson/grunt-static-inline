@@ -1,4 +1,4 @@
-# grunt-static-inline [![Build Status](https://travis-ci.org/dayvson/grunt-static-inline.svg?branch=master)](https://travis-ci.org/dayvson/grunt-static-inline) [![Build Status: Windows](https://ci.appveyor.com/api/projects/status/d0rhheq646brmx8g/branch/master?svg=true)](https://ci.appveyor.com/project/dayvson/grunt-static-inline/branch/master)
+# grunt-static-inline [![Build Status](https://travis-ci.org/dayvson/grunt-static-inline.svg?branch=master)](https://travis-ci.org/dayvson/grunt-static-inline) [![Build status](https://ci.appveyor.com/api/projects/status/u2qo56ufapgxseci?svg=true)](https://ci.appveyor.com/project/dayvson/grunt-static-inline)
 
 > A grunt plugin to replace url from static files such as images, CSS, JS and variables and put them inline in a template.
 
