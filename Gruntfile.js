@@ -48,6 +48,22 @@ module.exports = function(grunt) {
           'tmp/output-full.html': 'test/fixtures/template-full.html',
           'tmp/output-variables.html': 'test/fixtures/template-variables.html'
         }
+      },
+      main_xhtml: {
+        options: {
+          prefix: '@{',
+          suffix: '}@',
+          vars: {
+            'hello': 'Hello World',
+            'DOCTYPE': '<?xml version="1.0" encoding="utf-8" ?>\n<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
+            'partial_include': '<%= grunt.file.read("test/fixtures/partial.html") %>'
+          },
+          basepath: 'test/fixtures/'
+        },
+        files: {
+          'tmp/output-full-xhtml.html': 'test/fixtures/template-full.xhtml',
+          'tmp/output-full-xhtml.xhtml': 'test/fixtures/template-full.xhtml'
+        }
       }
     },
 

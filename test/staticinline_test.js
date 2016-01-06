@@ -47,5 +47,19 @@ exports.staticinline = {
     var expected = readFile('test/expected/output-full.html');
     test.equal(actual, expected, 'should replace all elements with inline attributes');
     test.done();
+  },
+
+  replaceFullXHTML1: function(test) {
+    var actual = readFile('tmp/output-full-xhtml.html');
+    var expected = readFile('test/expected/output-full.xhtml');
+    test.equal(actual, expected, 'should replace all elements with inline attributes');
+    test.done();
+  },
+
+  replaceFullXHTML2: function(test) {
+    var actual = readFile('tmp/output-full-xhtml.xhtml');
+    var expected = readFile('test/expected/output-full.xhtml');
+    test.equal(actual, expected, 'should replace all elements with inline attributes');
+    test.done();
   }
 };
