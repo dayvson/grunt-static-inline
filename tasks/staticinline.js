@@ -24,47 +24,48 @@ module.exports = function(grunt) {
     return srcPath;
   };
 
-  var readFile = function(templatePath, src, basepath) {
+  var readFile = function(templatePath, src, basepath, addCDATA) {
     var result = '';
     var srcPath = resolveFilePath(templatePath, src, basepath);
     if (srcPath) {
       result = grunt.file.read(srcPath).trim();
     }
-    return result;
-  };
-
-  var baseTagReplace = function(templatePath, tag, src, basepath) {
-    var result = '';
-    var srcContents = readFile(templatePath, src, basepath);
-    if (srcContents) {
-      result = '<' + tag + '>' + srcContents + '</' + tag + '>';
+    if (addCDATA) {
+      result = '/*<![CDATA[*/' + result + '/*]]>*/';
     }
     return result;
   };
 
-  var findReplaceScript = function(templatePath, content, basepath) {
+  var findReplaceScript = function(templatePath, content, basepath, addCDATA) {
     return content.replace(/<script[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?><\/script>/g, function(match, src) {
 
       // Remove attributes and closing `</script>`
-      match = match.replace(/\ssrc=['"]([^'"]+)['"]/, '')
-                .replace(/\sinline=['"]true['"]/, '')
+      match = match.replace(/\s+src=['"]([^'"]+)['"]/, '')
+                .replace(/\s+inline=['"]true['"]/, '')
                 .replace(/<\/script>/, '');
 
-      return match + readFile(templatePath, src, basepath) + '</script>';
+      return match + readFile(templatePath, src, basepath, addCDATA) + '</script>';
     });
   };
 
-  var findReplaceLink = function(templatePath, content, basepath) {
-    return content.replace(/<link[^<]*href=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?\s*>/g, function(match, src) {
-      return baseTagReplace(templatePath, 'style', src, basepath);
+  var findReplaceLink = function(templatePath, content, basepath, addCDATA) {
+    return content.replace(/<link[^<]*href=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?>/g, function(match, src) {
+
+      // Remove attributes
+      match = match.replace(/<link/, '<style').replace(/\s+\/>/, '>')
+                .replace(/\s+href=['"]([^'"]+)['"]/, '')
+                .replace(/\s+rel=['"]stylesheet['"]/, '')
+                .replace(/\s+inline=['"]true['"]/, '');
+
+      return match + readFile(templatePath, src, basepath, addCDATA) + '</style>';
     });
   };
 
   var findReplaceImg = function(templatePath, content, basepath) {
-    return content.replace(/<img[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?\s*>/g, function(match, src) {
+    return content.replace(/<img[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?>/g, function(match, src) {
       var srcPath = resolveFilePath(templatePath, src, basepath);
       if (srcPath) {
-        return match.replace(/inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
+        return match.replace(/\s+inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
       }
       return '';
     });
@@ -78,9 +79,9 @@ module.exports = function(grunt) {
     return content;
   };
 
-  var findAndReplace = function(options, templatePath, content) {
-    var result = findReplaceLink(templatePath, content, options.basepath);
-    result = findReplaceScript(templatePath, result, options.basepath);
+  var findAndReplace = function(options, templatePath, content, addCDATA) {
+    var result = findReplaceLink(templatePath, content, options.basepath, addCDATA);
+    result = findReplaceScript(templatePath, result, options.basepath, addCDATA);
     result = findReplaceImg(templatePath, result, options.basepath);
     return findReplaceVariables(options, result);
   };
@@ -96,7 +97,11 @@ module.exports = function(grunt) {
       var srcFile = f.src;
       var destFile = f.dest;
       var content = grunt.file.read(srcFile);
-      content = findAndReplace(options, srcFile, content);
+      
+      // add CDATA section for XML and XHTML files
+      var addCDATA = options.cdata || !!srcFile[0].match(/\.(xml|xhtml|xsd)$/i) || !!content.match(/(^<\?xml|<!DOCTYPE\s+html\s+PUBLIC\s+\"-\/\/W3C\/\/DTD\s+XHTML)/i);
+      
+      content = findAndReplace(options, srcFile, content, addCDATA);
       grunt.file.write(destFile, content);
     });
   };
