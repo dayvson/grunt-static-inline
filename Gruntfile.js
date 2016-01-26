@@ -62,7 +62,8 @@ module.exports = function(grunt) {
         },
         files: {
           'tmp/output-full-xhtml.html': 'test/fixtures/template-full.xhtml',
-          'tmp/output-full-xhtml.xhtml': 'test/fixtures/template-full.xhtml'
+          'tmp/output-full-xhtml.xhtml': 'test/fixtures/template-full.xhtml',
+          'tmp/output-minified.xhtml': 'test/fixtures/template-minified.xhtml'
         }
       }
     },
