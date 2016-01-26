@@ -37,12 +37,12 @@ module.exports = function(grunt) {
   };
 
   var findReplaceScript = function(templatePath, content, basepath, addCDATA) {
-    return content.replace(/<script[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?><\/script>/g, function(match, src) {
+    return content.replace(/<script[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*(\/>|><\/script>)/g, function(match, src) {
 
       // Remove attributes and closing `</script>`
       match = match.replace(/\s+src=['"]([^'"]+)['"]/, '')
                 .replace(/\s+inline=['"]true['"]/, '')
-                .replace(/<\/script>/, '');
+                .replace(/\s*\/>/, '>').replace(/<\/script>/, '');
 
       return match + readFile(templatePath, src, basepath, addCDATA) + '</script>';
     });
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
     return content.replace(/<link[^<]*href=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?>/g, function(match, src) {
 
       // Remove attributes
-      match = match.replace(/<link/, '<style').replace(/\s+\/>/, '>')
+      match = match.replace(/<link/, '<style').replace(/\s*\/>/, '>')
                 .replace(/\s+href=['"]([^'"]+)['"]/, '')
                 .replace(/\s+rel=['"]stylesheet['"]/, '')
                 .replace(/\s+inline=['"]true['"]/, '');

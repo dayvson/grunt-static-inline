@@ -61,5 +61,12 @@ exports.staticinline = {
     var expected = readFile('test/expected/output-full.xhtml');
     test.equal(actual, expected, 'should replace all elements with inline attributes');
     test.done();
+  },
+
+  replaceMinifiedXHTML: function(test) {
+    var actual = readFile('tmp/output-minified.xhtml');
+    var expected = readFile('test/expected/output-minified.xhtml');
+    test.equal(actual, expected, 'should replace all elements with inline attributes');
+    test.done();
   }
 };
