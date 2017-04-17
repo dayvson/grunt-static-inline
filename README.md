@@ -1,28 +1,30 @@
-# grunt-static-inline [![Build Status](https://travis-ci.org/dayvson/grunt-static-inline.svg?branch=master)](https://travis-ci.org/dayvson/grunt-static-inline) [![Build status](https://ci.appveyor.com/api/projects/status/u2qo56ufapgxseci?svg=true)](https://ci.appveyor.com/project/dayvson/grunt-static-inline)
+# grunt-static-inline [![Linux Build Status](https://img.shields.io/travis/dayvson/grunt-static-inline/master.svg?label=Linux%20build)](https://travis-ci.org/dayvson/grunt-static-inline) [![Windows Build status](https://img.shields.io/appveyor/ci/dayvson/grunt-static-inline/master.svg?label=Windows%20build)](https://ci.appveyor.com/project/dayvson/grunt-static-inline/branch/master)
 
-> A grunt plugin to replace url from static files such as images, CSS, JS and variables and put them inline in a template.
+
+> Replace URL from static files such as images, CSS, JS and variables and put them inline in a template.
+
 
 ## Getting Started
 This plugin requires Grunt `>=0.4.0`
 
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the
-[Getting Started](http://gruntjs.com/getting-started) guide, as it explains how
-to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install
-and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
 npm install grunt-static-inline --save-dev
 ```
 
-One the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
 grunt.loadNpmTasks('grunt-static-inline');
 ```
 
-## The "staticinline" task
 
-### Overview
+## The "staticinline" task
+_Run this task with the `grunt staticinline` command._
+
+
+### Usage
 
 In your project's Gruntfile, add a section named `staticinline` to the data object passed into `grunt.initConfig()`.
 
@@ -48,14 +50,14 @@ grunt.initConfig({
 })
 ```
 
-In your template file you should add `inline="true"` where you want to replace it for inline content; the inline attributes will be removed afterwards.
+In your template file you should add `inline="true"` where you want to replace it with inline content; the inline attribute will be removed afterwards.
 
 ```html
 @{DOCTYPE}@
 <html>
   <head>
     <title>static inline</title>
-    <link href="css/main.css" rel="stylesheet" inline="true"/>  <!-- absolute url will use basepath option -->
+    <link href="css/main.css" rel="stylesheet" inline="true">  <!-- absolute URL will use the `basepath` option -->
     <script src="js/app.js" inline="true"></script>
     <script src="js/common.js" inline="true"></script>
   </head>
