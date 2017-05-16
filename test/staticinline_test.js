@@ -68,5 +68,19 @@ exports.staticinline = {
     var expected = readFile('test/expected/output-minified.xhtml');
     test.equal(actual, expected, 'should replace all elements with inline attributes');
     test.done();
+  },
+
+  replaceMultiA: function(test) {
+    var actual = readFile('tmp/template-multi-a.html');
+    var expected = readFile('test/expected/template-multi-a.html');
+    test.equal(actual, expected, 'should deal with complex file structures');
+    test.done();
+  },
+
+  replaceMultiB: function(test) {
+    var actual = readFile('tmp/b/template-multi-b.html');
+    var expected = readFile('test/expected/b/template-multi-b.html');
+    test.equal(actual, expected, 'should deal with complex file structures');
+    test.done();
   }
 };
