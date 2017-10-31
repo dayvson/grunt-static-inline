@@ -94,13 +94,13 @@ module.exports = function(grunt) {
     });
 
     this.files.forEach(function(f) {
-      var srcFile = f.src;
+      var srcFile = f.src[0];
       var destFile = f.dest;
       var content = grunt.file.read(srcFile);
-      
+
       // add CDATA section for XML and XHTML files
-      var addCDATA = options.cdata || !!srcFile[0].match(/\.(xml|xhtml|xsd)$/i) || !!content.match(/(^<\?xml|<!DOCTYPE\s+html\s+PUBLIC\s+\"-\/\/W3C\/\/DTD\s+XHTML)/i);
-      
+      var addCDATA = options.cdata || !!srcFile.match(/\.(xml|xhtml|xsd)$/i) || !!content.match(/(^<\?xml|<!DOCTYPE\s+html\s+PUBLIC\s+\"-\/\/W3C\/\/DTD\s+XHTML)/i);
+
       content = findAndReplace(options, srcFile, content, addCDATA);
       grunt.file.write(destFile, content);
     });
