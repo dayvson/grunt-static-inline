@@ -9,7 +9,7 @@
 'use strict';
 
 module.exports = function(grunt) {
-  var datauri = require('datauri');
+  var datauri = require('datauri').sync;
   var path = require('path');
 
   var resolveFilePath = function(templatePath, src, basepath) {

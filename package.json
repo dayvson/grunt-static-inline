@@ -13,20 +13,20 @@
     "url": "https://github.com/dayvson/grunt-static-inline/issues"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
   "scripts": {
     "test": "grunt test"
   },
   "dependencies": {
-    "datauri": "~0.8.0"
+    "datauri": "^1.1.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-cli": "~0.1.13",
-    "grunt-contrib-clean": "~0.7.0",
-    "grunt-contrib-jshint": "~0.11.2",
-    "grunt-contrib-nodeunit": "~0.4.1"
+    "grunt": "^1.0.3",
+    "grunt-cli": "^1.3.1",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-jshint": "^2.0.0",
+    "grunt-contrib-nodeunit": "^2.0.0"
   },
   "peerDependencies": {
     "grunt": ">=0.4.0"
@@ -35,7 +35,6 @@
     "gruntplugin"
   ],
   "files": [
-    "tasks",
-    "LICENSE"
+    "tasks/*.js"
   ]
 }
