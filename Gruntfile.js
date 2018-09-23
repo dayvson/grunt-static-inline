@@ -6,10 +6,7 @@
  * Licensed under the MIT license.
  */
 
-'use strict';
-
 module.exports = function(grunt) {
-
   // Project configuration.
   grunt.initConfig({
     jshint: {
@@ -89,5 +86,4 @@ module.exports = function(grunt) {
 
   // By default, lint and run all tests.
   grunt.registerTask('default', 'test');
-
 };

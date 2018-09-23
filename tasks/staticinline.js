@@ -6,14 +6,12 @@
  * Licensed under the MIT license.
  */
 
-'use strict';
-
-var path = require('path');
-var datauri = require('datauri').sync;
+const path = require('path');
+const datauri = require('datauri').sync;
 
 module.exports = function(grunt) {
-  var resolveFilePath = function(templatePath, src, basepath) {
-    var srcPath;
+  const resolveFilePath = (templatePath, src, basepath) => {
+    let srcPath;
     if (!grunt.file.isPathAbsolute(src) && basepath) {
       srcPath = path.resolve(basepath + src);
     } else if (!grunt.file.isPathAbsolute(src)) {
@@ -24,48 +22,48 @@ module.exports = function(grunt) {
     return srcPath;
   };
 
-  var readFile = function(templatePath, src, basepath, addCDATA) {
-    var result = '';
-    var srcPath = resolveFilePath(templatePath, src, basepath);
+  const readFile = (templatePath, src, basepath, addCDATA) => {
+    let result = '';
+    const srcPath = resolveFilePath(templatePath, src, basepath);
     if (srcPath) {
       result = grunt.file.read(srcPath).trim();
     }
     if (addCDATA) {
-      result = '/*<![CDATA[*/' + result + '/*]]>*/';
+      result = `/*<![CDATA[*/${result}/*]]>*/`;
     }
     return result;
   };
 
-  var findReplaceScript = function(templatePath, content, basepath, addCDATA) {
-    return content.replace(/<script[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*(\/>|><\/script>)/g, function(match, src) {
+  const findReplaceScript = (templatePath, content, basepath, addCDATA) => {
+    return content.replace(/<script[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*(\/>|><\/script>)/g, (match, src) => {
 
       // Remove attributes and closing `</script>`
       match = match.replace(/\s+src=['"]([^'"]+)['"]/, '')
-                .replace(/\s+inline=['"]true['"]/, '')
-                .replace(/\s*\/>/, '>')
-                .replace(/<\/script>/, '');
+        .replace(/\s+inline=['"]true['"]/, '')
+        .replace(/\s*\/>/, '>')
+        .replace(/<\/script>/, '');
 
-      return match + readFile(templatePath, src, basepath, addCDATA) + '</script>';
+      return `${match + readFile(templatePath, src, basepath, addCDATA)}</script>`;
     });
   };
 
-  var findReplaceLink = function(templatePath, content, basepath, addCDATA) {
-    return content.replace(/<link[^<]*href=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?>/g, function(match, src) {
+  const findReplaceLink = (templatePath, content, basepath, addCDATA) => {
+    return content.replace(/<link[^<]*href=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?>/g, (match, src) => {
 
       // Remove attributes
       match = match.replace(/<link/, '<style')
-                .replace(/\s*\/>/, '>')
-                .replace(/\s+href=['"]([^'"]+)['"]/, '')
-                .replace(/\s+rel=['"]stylesheet['"]/, '')
-                .replace(/\s+inline=['"]true['"]/, '');
+        .replace(/\s*\/>/, '>')
+        .replace(/\s+href=['"]([^'"]+)['"]/, '')
+        .replace(/\s+rel=['"]stylesheet['"]/, '')
+        .replace(/\s+inline=['"]true['"]/, '');
 
-      return match + readFile(templatePath, src, basepath, addCDATA) + '</style>';
+      return `${match + readFile(templatePath, src, basepath, addCDATA)}</style>`;
     });
   };
 
-  var findReplaceImg = function(templatePath, content, basepath) {
-    return content.replace(/<img[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?>/g, function(match, src) {
-      var srcPath = resolveFilePath(templatePath, src, basepath);
+  const findReplaceImg = (templatePath, content, basepath) => {
+    return content.replace(/<img[^<]*src=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?>/g, (match, src) => {
+      const srcPath = resolveFilePath(templatePath, src, basepath);
       if (srcPath) {
         return match.replace(/\s+inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
       }
@@ -73,35 +71,35 @@ module.exports = function(grunt) {
     });
   };
 
-  var findReplaceVariables = function(options, content) {
-    Object.keys(options.vars).forEach(function(key) {
-      var re = new RegExp(options.prefix + key + options.suffix, 'g');
+  const findReplaceVariables = (options, content) => {
+    Object.keys(options.vars).forEach(key => {
+      const re = new RegExp(options.prefix + key + options.suffix, 'g');
       content = content.replace(re, options.vars[key]);
     });
     return content;
   };
 
-  var findAndReplace = function(options, templatePath, content, addCDATA) {
-    var result = findReplaceLink(templatePath, content, options.basepath, addCDATA);
+  const findAndReplace = (options, templatePath, content, addCDATA) => {
+    let result = findReplaceLink(templatePath, content, options.basepath, addCDATA);
     result = findReplaceScript(templatePath, result, options.basepath, addCDATA);
     result = findReplaceImg(templatePath, result, options.basepath);
     return findReplaceVariables(options, result);
   };
 
-  var staticInlineTask = function() {
-    var options = this.options({
+  const staticInlineTask = function() {
+    const options = this.options({
       prefix: '@{',
       suffix: '}@',
       vars: {}
     });
 
-    this.files.forEach(function(f) {
-      var srcFile = f.src[0];
-      var destFile = f.dest;
-      var content = grunt.file.read(srcFile);
+    this.files.forEach(f => {
+      const srcFile = f.src[0];
+      const destFile = f.dest;
+      let content = grunt.file.read(srcFile);
 
       // add CDATA section for XML and XHTML files
-      var addCDATA = options.cdata || Boolean(srcFile.match(/\.(xml|xhtml|xsd)$/i)) || Boolean(content.match(/(^<\?xml|<!DOCTYPE\s+html\s+PUBLIC\s+"-\/\/W3C\/\/DTD\s+XHTML)/i));
+      const addCDATA = options.cdata || Boolean(srcFile.match(/\.(xml|xhtml|xsd)$/i)) || Boolean(content.match(/(^<\?xml|<!DOCTYPE\s+html\s+PUBLIC\s+"-\/\/W3C\/\/DTD\s+XHTML)/i));
 
       content = findAndReplace(options, srcFile, content, addCDATA);
       grunt.file.write(destFile, content);
