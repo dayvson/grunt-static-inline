@@ -1,6 +1,3 @@
-# AppVeyor file
-# https://www.appveyor.com/docs/appveyor-yml
-
 version: "{build}"
 
 clone_depth: 10
@@ -25,4 +22,4 @@ matrix:
   fast_finish: true
 
 cache:
-  - 'node_modules -> package.json'  # local npm modules
+  - 'node_modules -> appveyor.yml,package.json,package-lock.json'
