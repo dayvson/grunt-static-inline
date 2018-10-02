@@ -1,13 +1,14 @@
 # grunt-static-inline [![Build Status](https://travis-ci.org/dayvson/grunt-static-inline.svg?branch=master)](https://travis-ci.org/dayvson/grunt-static-inline) [![Build status](https://ci.appveyor.com/api/projects/status/u2qo56ufapgxseci?svg=true)](https://ci.appveyor.com/project/dayvson/grunt-static-inline)
 
-> A grunt plugin to replace url from static files such as images, CSS, JS and variables and put them inline in a template.
+> A grunt plugin to replace URL from static files such as images, CSS, JS and variables and put them inline in a template.
 
 ## Getting Started
+
 This plugin requires Grunt `>=0.4.0`
 
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the
-[Getting Started](http://gruntjs.com/getting-started) guide, as it explains how
-to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install
+If you haven't used [Grunt](https://gruntjs.com/) before, be sure to check out the
+[Getting Started](https://gruntjs.com/getting-started) guide, as it explains how
+to create a [Gruntfile](https://gruntjs.com/sample-gruntfile) as well as install
 and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
@@ -55,7 +56,7 @@ In your template file you should add `inline="true"` where you want to replace i
 <html>
   <head>
     <title>static inline</title>
-    <link href="css/main.css" rel="stylesheet" inline="true"/>  <!-- absolute url will use basepath option -->
+    <link href="css/main.css" rel="stylesheet" inline="true"/>  <!-- absolute URL will use basepath option -->
     <script src="js/app.js" inline="true"></script>
     <script src="js/common.js" inline="true"></script>
   </head>
@@ -71,5 +72,5 @@ In your template file you should add `inline="true"` where you want to replace i
 
 * Take care to maintain the existing coding style.
 * Add unit tests for any new or changed functionality.
-* Lint and test your code using [Grunt](http://gruntjs.com/).
+* Lint and test your code using [Grunt](https://gruntjs.com/).
 * Open a pull request :)
