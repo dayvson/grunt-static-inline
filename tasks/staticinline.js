@@ -8,10 +8,10 @@
 
 'use strict';
 
-module.exports = function(grunt) {
-  var datauri = require('datauri').sync;
-  var path = require('path');
+var path = require('path');
+var datauri = require('datauri').sync;
 
+module.exports = function(grunt) {
   var resolveFilePath = function(templatePath, src, basepath) {
     var srcPath;
     if (!grunt.file.isPathAbsolute(src) && basepath) {
@@ -42,7 +42,8 @@ module.exports = function(grunt) {
       // Remove attributes and closing `</script>`
       match = match.replace(/\s+src=['"]([^'"]+)['"]/, '')
                 .replace(/\s+inline=['"]true['"]/, '')
-                .replace(/\s*\/>/, '>').replace(/<\/script>/, '');
+                .replace(/\s*\/>/, '>')
+                .replace(/<\/script>/, '');
 
       return match + readFile(templatePath, src, basepath, addCDATA) + '</script>';
     });
@@ -52,7 +53,8 @@ module.exports = function(grunt) {
     return content.replace(/<link[^<]*href=['"]([^'"]+)['"][^<]*inline=['"]true['"][^<]*\/?>/g, function(match, src) {
 
       // Remove attributes
-      match = match.replace(/<link/, '<style').replace(/\s*\/>/, '>')
+      match = match.replace(/<link/, '<style')
+                .replace(/\s*\/>/, '>')
                 .replace(/\s+href=['"]([^'"]+)['"]/, '')
                 .replace(/\s+rel=['"]stylesheet['"]/, '')
                 .replace(/\s+inline=['"]true['"]/, '');
@@ -99,7 +101,7 @@ module.exports = function(grunt) {
       var content = grunt.file.read(srcFile);
 
       // add CDATA section for XML and XHTML files
-      var addCDATA = options.cdata || !!srcFile.match(/\.(xml|xhtml|xsd)$/i) || !!content.match(/(^<\?xml|<!DOCTYPE\s+html\s+PUBLIC\s+\"-\/\/W3C\/\/DTD\s+XHTML)/i);
+      var addCDATA = options.cdata || Boolean(srcFile.match(/\.(xml|xhtml|xsd)$/i)) || Boolean(content.match(/(^<\?xml|<!DOCTYPE\s+html\s+PUBLIC\s+"-\/\/W3C\/\/DTD\s+XHTML)/i));
 
       content = findAndReplace(options, srcFile, content, addCDATA);
       grunt.file.write(destFile, content);
@@ -107,5 +109,4 @@ module.exports = function(grunt) {
   };
 
   grunt.registerMultiTask('staticinline', 'A grunt plugin to replace url from static files such as images, CSS, JS, and put inline in a template', staticInlineTask);
-
 };
