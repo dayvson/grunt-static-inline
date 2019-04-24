@@ -1,3 +1,5 @@
+'use strict';
+
 const grunt = require('grunt');
 
 function readFile(file) {

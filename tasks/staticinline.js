@@ -6,6 +6,8 @@
  * Licensed under the MIT license.
  */
 
+'use strict';
+
 const path = require('path');
 const datauri = require('datauri').sync;
 
@@ -19,6 +21,7 @@ module.exports = function(grunt) {
     } else if (grunt.file.isPathAbsolute(src) && basepath) {
       srcPath = path.resolve(basepath + src);
     }
+
     return srcPath;
   };
 
@@ -28,9 +31,11 @@ module.exports = function(grunt) {
     if (srcPath) {
       result = grunt.file.read(srcPath).trim();
     }
+
     if (addCDATA) {
       result = `/*<![CDATA[*/${result}/*]]>*/`;
     }
+
     return result;
   };
 
@@ -67,6 +72,7 @@ module.exports = function(grunt) {
       if (srcPath) {
         return match.replace(/\s+inline=['"]true['"]/g, '').replace(src, datauri(srcPath));
       }
+
       return '';
     });
   };
